@@ -1,0 +1,97 @@
+과제 1. N1 ~ N2 사이의 합을 구하는 Sum을 만드세요
+
+int main()
+{
+int n1 = 5, n2 = 10;
+short s1 = 5, s2 = 10;
+double d1 = 3.4, d2 = 1.2;
+Sum(n1, n2); // ok
+Sum(s1, s2); // ok
+Sum(d1, d2); // error가 나와야 합니다.
+}
+
+
+조건 1. 모든 정수 타입에는 동작해야 하지만 실수 일 경우는 컴파일 에러가 나와야 합니다.
+조건 2. static_assert() 버전과 enable_if 버전으로 각각 작성해 보세요
+
+
+
+
+과제 2. 인자로 전달된 컨테이너가 가진 모든 요소의 평균을 구하는 average()를 만
+드세요
+배열과 STL 컨테이너 모두에 대해서 동작해야 합니다.
+int main()
+{
+int x[10]{ 1,2,3,4,5,6,7,8,9,10 };
+vector<int> v{ 1,2,3,4,5,6,7,8,9,10 };
+cout << average(x) << endl;
+cout << average(v) << endl;
+}
+
+
+
+
+
+과제 3. 특정 클래스안에 가상함수가 있는지 조사하는 has_virtual_function 을 만들
+어 보세요. 테스트 하는 코드도 같이 만들어 보세요
+template<typename T> void foo(T& c)
+{
+if (has_virtual_function<T>::value)
+cout << "T has virtual function" << endl;
+else
+cout << "T has not virtual function" << endl;
+}
+
+
+
+
+
+
+과제 4. printf() 함수의 전통적인 문제점은 인자의 개수를 잘못 보내도 에러(컴파일
+또는 실행시)가 나오지 않는 다는 점입니다. 가변 인자 함수 템플릿을 사용해서
+printf()의 문제를 해결해 보세요
+단, “%f”등은 처리하지 말고, “%d” 처리 할 수 있으면 됩니다.
+int main()
+{
+printf("%d\n", 1, 2, 3); // 인자가 너무 많습니다.
+printf("%d%d\n", 1); // 인자가 부족 합니다.
+// cpp_print를 만들어 보세요
+try
+{
+cpp_print("%d\n", 1, 2, 3); // 예외가 나오게 하세요
+cpp_print("%d%d\n", 1); // 예외가 나오게 하세요
+}
+catch (...)
+{
+cout << "예외 발생" << endl;
+}
+}
+
+
+
+
+
+과제 5. TypeList 만들기
+1~3의 TypeList 설명을 잘 읽고, 과제를 해결해 보세요. 과제는 마지막 부분에 설명됩니다.
+
+과제. 아래 코드가 수행되도록 TypeAt, IndexOf, Erase, Replace 를 만들어 보세요
+int main()
+{
+typedef MakeTypelist<int, char, double, short>::Result myType;
+// (1) TypeAt : N번째 타입이 무슨 타입인지 알아내는 템플릿 입니다.
+TypeAt<myType, 1>::Result n; // n은 char 타입이어야 합니다.
+// (2) IndexOf : 특정 타입이 몇번째 있는지 찾아 내는 템플릿입니다.
+cout << IndexOf<myType, double>::value << endl; // 2가 나와야 합니다.
+// (3) Erase : 특정 타입을 제거한 새로운 TypeList 만들기
+//최초 발견된것 하나만 제거
+typedef Erase<myType, char>::Result myType2;
+cout << typeid(myType2).name() << endl; // int, double, short 의 TypeList입니다.
+// (4) Replace : 특정 타입을 다른 타입으로 교체한 TypeList 만들기
+typedef Replace<myType, char, float>::Result myType3;
+cout << typeid(myType3).name() << endl; // int, float, double, short
+}
+
+
+
+
+
